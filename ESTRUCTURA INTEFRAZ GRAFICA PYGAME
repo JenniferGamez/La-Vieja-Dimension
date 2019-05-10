@@ -4,6 +4,7 @@ INICIALIZACION
 
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+git add README
 
 import os, sys, PYGAME 						# esto es  una llamada a la libreria en la que se trabajara
 from pygame.locals import * 				# importar una serie de constantes que tiene pygame (como las teclas del teclado)
@@ -18,14 +19,14 @@ SCREEN_WIDTH = 680 #Ancho
 SCREEN_HEIGHT = 480 #Alto
 
 # ----------------------------------------------
-# Clases y Funciones de inciio a una ventana
+# Clases y Funciones de inicio a una ventana
 # ----------------------------------------------
 
 
 def main():
     pygame.init() 														# inicializacion del juego primero que se ejecuta
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 	#dimensiones de la ventana
-    pygame.display.set_caption(" Juego prueba") 						# titulo del juego
+    pygame.display.set_caption(" Name   ")       						# titulo del juego
 
     while 1:
         for event in pygame.event.get():
