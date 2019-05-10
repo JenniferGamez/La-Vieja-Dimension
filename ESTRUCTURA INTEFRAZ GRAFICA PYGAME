@@ -4,38 +4,58 @@ INICIALIZACION
 
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-git add README
 
 import os, sys, PYGAME 						# esto es  una llamada a la libreria en la que se trabajara
 from pygame.locals import * 				# importar una serie de constantes que tiene pygame (como las teclas del teclado)
 
-# OBJETOS EMPlEADOS EN LA CONSTRUCCION
-
-# ----------------------------------------------
-# Constantes, como anchos y largo de pantalla, etc (declarar)
 # ----------------------------------------------
 
-SCREEN_WIDTH = 680 #Ancho
-SCREEN_HEIGHT = 480 #Alto
+SCREEN_WIDTH = 680 #Ancho standar
+SCREEN_HEIGHT = 480 #Alto standar 
 
 # ----------------------------------------------
-# Clases y Funciones de inicio a una ventana
-# ----------------------------------------------
 
+# CREACION DE LA WINDOW 
 
 def main():
-    pygame.init() 														# inicializacion del juego primero que se ejecuta
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 	#dimensiones de la ventana
-    pygame.display.set_caption(" Name   ")       						# titulo del juego
+    pygame.init() 														# inicializacion del juego primero que se ejecuta (abre y cierra solo)
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 	# dimensiones de la ventana
+    pygame.display.set_caption("Name") 									# titulo del juego
 
-    while 1:                                                            # bucle principal se continuara ejecutando hasta que el jugador cierre 																	ventana (o sea que se quede esperando hasta que se haga click en le botón par
-    																	cerrar la ventana). O sea que se quede esperando hasta que se haga click en le botón par
+    while 1:															# el bucle principal se continuara ejecutando hasta que el jugador cierre la																		ventana (o sea que se quede esperando hasta que se haga click en le botón par
     																	cerrar la ventana). 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:			# pygame.QUIT (o sea cerrar la ventana) forma parte de sys anteriormente exportado
                 pygame.quit()
-                return
+                return or sys.exit()				# termina la ejecución del programa y es parte del modulo sys. Esta es una orden
 
-if __name__ == '__main__': 					#Mostrar la ventana 
+if __name__ == '__main__': 					#Mostrar la ventana. Esto es la llamada de la funcion
     main()
+
+# -------------------------------------------------
+
+# UN FONDO E IMAGEN
+
+Tengamos en cuenta que la window es como un eje de coordenada en el cual se ubica que se encuentra en el eje izquierdo superior, y se trabaja
+sobre las dimensiones en la cual hemos redimensionado la misma.
+
+-> Cargar las imágenes usamos pygame.NameImage.load()	se crea un objeto que contiene la superficie de la imagen (aun no la muestra).
+-> Indicar las posiciones de la imagen, se usa blit(NameImagen, (coordenada_x, coordenada_y))		#coordenadas se usa las dimensiones de la ventana
+
+ 	# cargamos el fondo y una imagen (se crea objetos "Surface")
+    
+    fondo = pygame.image.load("fondo.jpg").convert()			# convert() porque es un fondo y no necesita un fondo transparente
+    imag = pygame.image.load("tux.png").convert_alpha()		# se emplea convert_alpha() debido a que este fondo debe ser transparente
+
+   # Indicamos la posicion de las "Surface" sobre la ventana
+    #scree. para mostrar
+    
+    screen.blit(fondo, (0, 0))					# ubicar el fondo
+    screen.blit(img, (550, 200))				# ubicar la imagen con las dimensiones de la ventana
+    # se muestran lo cambios en pantalla
+    pygame.display.flip()						# mostrar los cambios
+
+
+# -------------------------------------------------
+
 
