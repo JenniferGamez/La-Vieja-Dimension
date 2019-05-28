@@ -5,20 +5,19 @@
 import sys
 import time
 import os
-# Matriz Inicial
-def MostrarTab(N): # -> Procedimiento Tablero
-	# N es la dimension del Tablero N x N
-	def Tablero(N):
-		tab= [] 				# Creamos un arreglo vacio, donde tendra como elementos otros arreglos
-		for i in range(0,N):
-			tab.append([0]*N) 	# introdujendo arreglos vacios al arreglo creado
-		return tab
+from random import randint
 
-	tablero = Tablero(N)
-	for i in range(0,N):
-		print tablero[i]	
-							
-###NOTA: por ser procedimiento solo se llama sin el print
-							##################################
+# Tablero, Array de un Array, Matriz
+DimensionesTab = int(input("\nIndique las dimesiones del tablero a jugar = "))
+tab = []  # Inicializacion del tablero en un array
 
-MostrarTab(DimensionesTab)
+for x in range(0, DimensionesTab):
+  tab.append(["O"] * DimensionesTab) # Introduciendo las filas en Arrays vacios
+
+def MostrarTablero(tab): # Mostrar elementos sin "" ni los [], y organizado por filas al imprimir
+# Aqui definimos un tablero
+  for fila in tab:
+    print " ".join(fila) # Join une los elementos del array 
+
+MostrarTablero(tab)		 # Muestra el tablero en la shell 
+
