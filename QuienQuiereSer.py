@@ -30,6 +30,9 @@ def QueQuiereSer(Jugador1, Jugador2): #El jugador decide si quiere ser X y O
 				return Asig_1 , Asig_2 #estos me arrojan estas variables que deben volverse locales
 			
 #Variables locales de la asignacion de X y O
-
 jug1, jug2 = QueQuiereSer(Jugador1,Jugador2)
+
+#MUESTRA A LOS USUARIOS SUS FICHAS A JUGAR
+print "\n%s seran las %s y %s seran %s" %(Jugador1,jug1,Jugador2,jug2)
+
 	
