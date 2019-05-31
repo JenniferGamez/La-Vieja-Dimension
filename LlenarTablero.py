@@ -29,3 +29,14 @@ c = int(input("Columnaa a trabajar= "))
 
 MostrarTab(DimensionesTab, f, c)
 
+### OTRA
+
+def LlenarTablero(fila,columna,tablero, dimensiones, ficha):
+	while True:
+		try:	
+			assert(0 <= fila < dimensiones and 0 <= columna < dimensiones)
+		except:
+			print "Usted esta seleccionando una casilla fuera de los limites del tablero."
+		finally:
+			tablero[fila][columna] = ficha #aqui depende del jugador
+
