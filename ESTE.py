@@ -1,4 +1,4 @@
-# #!/usr/bin/env python
+#!/usr/bin/env python
 
 #IMPORTANDO LIBRERIAS
 import sys
@@ -32,16 +32,14 @@ def MostrarTablero(tab): # Mostrar filas al imprimir
 def Jugada_Valida(fila,columna, tablero):
 	while True:
 		try:
-			Valido = 0
+			Valido = True
 			# Verificando que la casilla este vacia.
 			assert(tablero[fila][columna] == 0)
 			break
 		except:
-			print "Intente nuevamente. Casilla ocupada."
 			Valido = False
 			return Valido
 		finally:
-			Valido = True
 			return Valido
 
 # DEFINIENDO LAS FICHAS 
@@ -88,7 +86,7 @@ while True:
 
 			### AIUDA ARREGLAR NO ME LEE EL ASSERT
 			print "NO LEE ESTE ASSERT LINE 95"
-			assert(len(Jugador1) != 0)
+			assert(len(Jugador1) != 0)	#para indicar que es distinto de vacio
 			assert(len(Jugador2) != 0)
 			break
 		except:
@@ -111,11 +109,12 @@ while True:
 			try: # ELIGIENDO TABLERO.
 				refe = input('\nElija el tablero a jugar. Recuerde que puede elergir entre %s \
 tablero(s): '%DimensionesTab)
-				# COMPROBANDO QUE EL TABLERO SELECCIONADO EXISTA EN EL SUPER TABLERO
-				assert (refe >= 0) 
-				assert(float(DimensionesTab).is_integer())		
+				# COMPROBANDO QUE EL TABLERO SELECCIONADO EXISTA EN EL SUPER TABLERO 
+				assert (refe >= 0 and refe < DimensionesTab) 
+				assert(float(refe).is_integer())		
 				break
 			except:
+				# NO LEE ESTE ASSERT NJDS TOY ARRECHA
 				print "\nUsted ha elegido un tablero inexistente en la Dimension indicada."
 				print "Intente nuevamente."
 			finally:
@@ -125,6 +124,7 @@ tablero(s): '%DimensionesTab)
 
 				#MOSTRANDO EL TABLERO POR FILAS
 				MostrarTablero(tab)
+
 				try:
 					#ANTES DE ESTO SUPONGO DEBE HABER UN BOOCLE CUANDO SE CUENTA LAS FICHAS Y ESO
 
@@ -132,18 +132,34 @@ tablero(s): '%DimensionesTab)
 					fila = int(input("\nFila a trabajar: "))
 					columna = int(input("Columna a trabajar: "))
 					# Verificando la casilla se encuentra dentro del tablero
+					assert(float(fila.is_integer()) and float(columna.is_integer()) )
 					assert((0 <= fila < dimensiones) and (0 <= columna < dimensiones))
 					break
 				except:
-					print "Usted ha seleccionando una casilla fuera de los limites del tablero."
+					print "\nUsted ha seleccionando una casilla fuera de los limites del tablero."
+					print "Intente nuevamente. Casilla ocupada."
 				finally:
-
+					#### BUCLE CON LA FUNCION DE LAS FICHAS QUE SE HAN PUESTO YA
 					if Jugada_Valida(fila,columna, tab) == True:
 						tab[fila][columna] = ficha_jug1  ###AQUI FALTA DEFINIR LA FICHA DE DICHO TURNO
 						print "\nTablero %s" %refe
+						# MOSTRANDO EL TABLERO POR FILAS
 						MostrarTablero(tab)
-						
+
+						if Jugada_Valida(fila,columna, tab) == True:
+							tab[fila][columna] = ficha_jug1  ###AQUI FALTA DEFINIR LA FICHA DE DICHO TURNO
+							print "\nTablero %s" %refe
+							# MOSTRANDO EL TABLERO POR FILAS
+							MostrarTablero(tab)
+
+						elif Jugada_Valida(fila,columna, tab) == False:### NO LLEGA A ESTE SUBPROGRAMA
+							print "\nIntente nuevamente. Casilla ocupada."
+							fila = int(input("\nFila a trabajar: "))
+							columna = int(input("Columna a trabajar: "))
+							Jugada_Valida(fila,columna, tab)
+
 					elif Jugada_Valida(fila,columna, tab) == False:### NO LLEGA A ESTE SUBPROGRAMA
+						print "Intente nuevamente. Casilla ocupada."
 						fila = int(input("\nFila a trabajar: "))
 						columna = int(input("Columna a trabajar: "))
 						Jugada_Valida(fila,columna, tab)
