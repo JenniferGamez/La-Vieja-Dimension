@@ -28,26 +28,21 @@ def MostrarTablero(tab): # Mostrar filas al imprimir
 		print fila # Join une los elementos del array
 
 # LLENAR EL TABLERO CON LA FICHA DEL JUGADOR DE TURNO
-def Jugada_Valida(fila,columna, dimensiones, Valido):
+
+def Jugada_Valida(fila,columna, tablero):
 	while True:
 		try:
-			fila = int(input("\nFila a trabajar: "))
-			columna = int(input("Columna a trabajar: "))
-			# Verificando la casilla se encuentra dentro del tablero
-			assert((0 <= fila < dimensiones) and (0 <= columna < dimensiones))
+			Valido = 0
+			# Verificando que la casilla este vacia.
+			assert(tablero[fila][columna] == 0)
 			break
 		except:
-			print "Usted ha seleccionando una casilla fuera de los limites del tablero."
+			print "Intente nuevamente. Casilla ocupada."
+			Valido = False
+			return Valido
 		finally:
-			try:
-				# Verificando que la casilla este vacia.
-				assert(tablero[fila][columna] == 0)
-				break
-			except:
-				Valido = False
-				return Valido
-			finally:
-				return fila, columna
+			Valido = True
+			return Valido
 
 # DEFINIENDO LAS FICHAS 
 def QueQuiereSer(Jugador1, Jugador2): #El jugador decide si quiere ser X y O
@@ -130,16 +125,25 @@ tablero(s): '%DimensionesTab)
 
 				#MOSTRANDO EL TABLERO POR FILAS
 				MostrarTablero(tab)
+				try:
+					#ANTES DE ESTO SUPONGO DEBE HABER UN BOOCLE CUANDO SE CUENTA LAS FICHAS Y ESO
 
-				# ENTRADA DE LA FILA Y COLUMNA A JUGAR
+					#COMPROBANDO JUGADA 
+					fila = int(input("\nFila a trabajar: "))
+					columna = int(input("Columna a trabajar: "))
+					# Verificando la casilla se encuentra dentro del tablero
+					assert((0 <= fila < dimensiones) and (0 <= columna < dimensiones))
+					break
+				except:
+					print "Usted ha seleccionando una casilla fuera de los limites del tablero."
+				finally:
 
-				if Jugada_Valida(0, 0, DimensionesTab, 0) == False:
-					print "Usted ha seleccionando una casilla ocupada."
-					print "Intente nuevamente."
-					# Jugada_Valida (0, 0, DimensionesTab, 0)
-
-				else:
-					i , j = Jugada_Valida (0, 0, DimensionesTab, 0)
-					tab[i][j] = ficha_jug1 ###FALTA ESTA FUNCION TAMBIEN la que selecciona quien juega y la ficha
-					print "\nTablero %s" %refe
-					MostrarTablero(tab)
+					if Jugada_Valida(fila,columna, tab) == True:
+						tab[fila][columna] = ficha_jug1  ###AQUI FALTA DEFINIR LA FICHA DE DICHO TURNO
+						print "\nTablero %s" %refe
+						MostrarTablero(tab)
+						
+					elif Jugada_Valida(fila,columna, tab) == False:### NO LLEGA A ESTE SUBPROGRAMA
+						fila = int(input("\nFila a trabajar: "))
+						columna = int(input("Columna a trabajar: "))
+						Jugada_Valida(fila,columna, tab)
