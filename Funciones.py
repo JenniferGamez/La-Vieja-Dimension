@@ -4,6 +4,21 @@ import sys
 import time
 import os
 
+#Juagada Valida
+def Jugada_Valida(fila,columna, tablero):
+  while True:
+    try:
+      Valido = True
+      # Verificando que la casilla este vacia.
+      assert(tablero[fila][columna] == 0)
+      assert(fila >= 0 and columna >= 0)
+      break
+    except:
+      Valido = False
+      return Valido
+    finally:
+        return Valido
+
 # Definicion que crea los tableros N x N
 def Tablero_NxN(tamano_Tablero, n):
 	# entrada de la matriz (elementos a rellenar)
@@ -61,20 +76,4 @@ ficha_jug1, ficha_jug2 = QueQuiereSer(Jugador1,Jugador2)
 # Monstrando los resultados
 print "\n%s sera las: %s y %s sera: %s." %(Jugador1,ficha_jug1,Jugador2,ficha_jug2)
 			
-#### INICIOOOO
-import sys
-
-while True:
-	try: 
-		DimensionesTab = int(input("\nIndique las dimesiones del tablero a jugar = "))
-		assert (DimensionesTab >= 3)
-		assert(float(DimensionesTab).is_integer())		#aseguramos que la entrada sea un entero estrictamente
-		break 											#indica que si no se cumple para y pide que sea corregido el erorr
-	except:
-		print "Las dimesiones del tablero son estrictamente numericas y mayores iguales a 3."
-		print "Intente nuevamente."
-
-
-print "\nHas elegido un tablero %s x %s y profundidad %s." %(DimensionesTab,DimensionesTab,DimensionesTab) 
-
 ##################
