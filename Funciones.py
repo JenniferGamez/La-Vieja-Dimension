@@ -75,5 +75,34 @@ ficha_jug1, ficha_jug2 = QueQuiereSer(Jugador1,Jugador2)
 
 # Monstrando los resultados
 print "\n%s sera las: %s y %s sera: %s." %(Jugador1,ficha_jug1,Jugador2,ficha_jug2)
-			
+
+# Jugada completa por tablero
+# Procedimiento por Tablero. Jugadas por tablero 
+def JugadaTablero(fila,columna,tablero,turno,ReferenciaTablero,tamano):
+    # Disponibilidad en la dimension
+    n = tamano - 1
+
+    # fail; cuenta lo errores obtenidos por Casilla ocupada o inexistente.
+    fail = 0    
+
+    for i in range(turno):
+        fila = int(input("\nFila a trabajar (E: %s filas): " %n))
+        columna = int(input("Columna a trabajar (E: %s columnas): " %n))
+
+        if Jugada_Valida(fila,columna, tablero) == True:
+            tab[fila][columna] = "x" ###AQUI FALTA DEFINIR LA FICHA DE DICHO TURNO
+            print "\nTablero %s" %ReferenciaTablero
+            # MOSTRANDO EL TABLERO POR FILAS
+            MostrarTablero(tablero)
+
+        elif Jugada_Valida(fila,columna, tablero) == False:
+            fail = fail + 1
+            print "\nIntente nuevamente. Casilla ocupada o inexistente."
+            print "\nTablero %s" %ReferenciaTablero
+            # MOSTRANDO EL TABLERO POR FILAS
+            MostrarTablero(tablero)
+      
+        i = i + 1
+
+    return fail
 ##################
