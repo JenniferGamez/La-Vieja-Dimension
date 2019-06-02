@@ -29,18 +29,19 @@ def MostrarTablero(tab): # Mostrar filas al imprimir
 
 # LLENAR EL TABLERO CON LA FICHA DEL JUGADOR DE TURNO
 
+#Funcion. Determina si una jugada esta dentro de los parametros del tablero o no esta ocupada. 
 def Jugada_Valida(fila,columna, tablero):
-	while True:
-		try:
-			Valido = True
-			# Verificando que la casilla este vacia.
-			assert(tablero[fila][columna] == 0)
-			break
-		except:
-			Valido = False
-			return Valido
-		finally:
-			return Valido
+  while True:
+    try:
+      Valido = True
+      # Verificando que la casilla este vacia.
+      assert(tablero[fila][columna] == 0)
+      assert(fila >= 0 and columna >= 0)
+      break
+    except:
+      Valido = False
+    finally:
+            return Valido
 
 # DEFINIENDO LAS FICHAS 
 def QueQuiereSer(Jugador1, Jugador2): #El jugador decide si quiere ser X y O
@@ -65,101 +66,108 @@ def QueQuiereSer(Jugador1, Jugador2): #El jugador decide si quiere ser X y O
 
 									###PROGRAMA PRINCIPAL###
 
-while True:
-	try:	#DIMENSIONES 
+while True: #DIMENSIONES 
+	try:	
 		DimensionesTab = int(input("\nIndique las dimesiones del tablero a jugar = "))
-		assert (DimensionesTab >= 2)
 		# Aseguramos que la entrada sea un entero estrictamente .is_integer()
-		assert(float(DimensionesTab).is_integer())		
+		assert(float(DimensionesTab).is_integer())	
+		assert ( DimensionesTab > 0 and DimensionesTab >= 2)
 		break 											
 	except:
 		print "Las dimesiones del tablero son estrictamente numericas y mayores iguales a 2."
 		print "Intente nuevamente."
 	finally:
-		print "\nHas elegido un tablero: %s x %s." %(DimensionesTab,DimensionesTab)
-		print "Dimensiones a jugar: %s Dimensiones." %DimensionesTab
-		
-		try:	#IDENTIFICACION
-			#ENTRADA.
-			Jugador1 = str(raw_input("\nIngrese el nombre del Jugador 1: ")).upper()
-			Jugador2 = str(raw_input("Ingrese el nombre del Jugador 2: ")).upper()
+		# Se ejecuta si las aserciones se cumplen.
+		if DimensionesTab > 0 and DimensionesTab >= 2: 
+			print "\nHas elegido un tablero: %s x %s." %(DimensionesTab,DimensionesTab)
+			print "Dimensiones a jugar: %s Dimensiones." %DimensionesTab
 
-			### AIUDA ARREGLAR NO ME LEE EL ASSERT
-			print "NO LEE ESTE ASSERT LINE 95"
-			assert(len(Jugador1) != 0)	#para indicar que es distinto de vacio
-			assert(len(Jugador2) != 0)
-			break
-		except:
-			print "\nLa identificacion de los jugadores es esencial."
-			print "Por favor ingrese una identificacion valida."
-		finally:
-			# SALIDA DE LA IDENTIFICACION DE LOS JUGADORES
-			print "\nJugador1 = %s" %Jugador1
-			print "Jugador2 = %s" %Jugador2
+		while True:	#IDENTIFICACION
+			try:	
+				#ENTRADA.
+				Jugador1 = str(raw_input("\nIngrese el nombre del Jugador 1: ")).upper()
+				Jugador2 = str(raw_input("Ingrese el nombre del Jugador 2: ")).upper()
 
-			# Asigando valores a variables locales (FICHAS)
-			ficha_jug1, ficha_jug2 = QueQuiereSer(Jugador1,Jugador2)
-
-			# Monstrando los resultados
-			print "\n%s sera las: %s y %s sera: %s." %(Jugador1,ficha_jug1,Jugador2,ficha_jug2)
-
-			# CONSTRUYENDO LOS TABLEROS EN LA DIMENSION SELECCIONADA 
-			Sup_Tab = Super_tablero(DimensionesTab)
-
-			try: # ELIGIENDO TABLERO.
-				refe = input('\nElija el tablero a jugar. Recuerde que puede elergir entre %s \
-tablero(s): '%DimensionesTab)
-				# COMPROBANDO QUE EL TABLERO SELECCIONADO EXISTA EN EL SUPER TABLERO 
-				assert (refe >= 0 and refe < DimensionesTab) 
-				assert(float(refe).is_integer())		
+				assert(len(Jugador1) > 0)
+				assert(len(Jugador2) > 0)
 				break
+
 			except:
-				# NO LEE ESTE ASSERT NJDS TOY ARRECHA
-				print "\nUsted ha elegido un tablero inexistente en la Dimension indicada."
-				print "Intente nuevamente."
+				print "\nLa identificacion de los jugadores es esencial."
+				print "Por favor ingrese una identificacion valida."
+
 			finally:
-				# LLAMADA DEL TABLERO SELECCIONADO
-				tab = Sup_Tab[refe]		
-				print "\nTablero %s" %refe
+				# Se ejecuta si las aserciones se cumplen.
+				if len(Jugador1) > 0 and len(Jugador2) > 0:
+					# SALIDA DE LA IDENTIFICACION DE LOS JUGADORES
+					print "\nJugador1 = %s" %Jugador1
+					print "Jugador2 = %s" %Jugador2
 
-				#MOSTRANDO EL TABLERO POR FILAS
-				MostrarTablero(tab)
+					# Asigando valores a variables locales
+					ficha_jug1, ficha_jug2 = QueQuiereSer(Jugador1,Jugador2)
 
-				try:
-					#ANTES DE ESTO SUPONGO DEBE HABER UN BOOCLE CUANDO SE CUENTA LAS FICHAS Y ESO
+					# Monstrando los resultados
+					print "\n%s sera las: %s y %s sera: %s." %(Jugador1,ficha_jug1,Jugador2,ficha_jug2)
 
-					#COMPROBANDO JUGADA 
-					fila = int(input("\nFila a trabajar: "))
-					columna = int(input("Columna a trabajar: "))
-					# Verificando la casilla se encuentra dentro del tablero
-					assert(float(fila.is_integer()) and float(columna.is_integer()) )
-					assert((0 <= fila < dimensiones) and (0 <= columna < dimensiones))
-					break
-				except:
-					print "\nUsted ha seleccionando una casilla fuera de los limites del tablero."
-					print "Intente nuevamente. Casilla ocupada."
-				finally:
-					#### BUCLE CON LA FUNCION DE LAS FICHAS QUE SE HAN PUESTO YA
-					if Jugada_Valida(fila,columna, tab) == True:
-						tab[fila][columna] = ficha_jug1  ###AQUI FALTA DEFINIR LA FICHA DE DICHO TURNO
-						print "\nTablero %s" %refe
-						# MOSTRANDO EL TABLERO POR FILAS
-						MostrarTablero(tab)
+					# CONSTRUYENDO LOS TABLEROS EN LA DIMENSION SELECCIONADA 
+					Sup_Tab = Super_tablero(DimensionesTab)
 
-						if Jugada_Valida(fila,columna, tab) == True:
-							tab[fila][columna] = ficha_jug1  ###AQUI FALTA DEFINIR LA FICHA DE DICHO TURNO
-							print "\nTablero %s" %refe
-							# MOSTRANDO EL TABLERO POR FILAS
-							MostrarTablero(tab)
+					while True:# ELIGIENDO TABLERO.
+						try: 
+							n = DimensionesTab - 1
+							refe = input('\nElija el tablero a jugar. Recuerde que puede elergir un tablero \
+entre: %s tablero(s) contando el tablero 0: '%n)
+							# COMPROBANDO QUE EL TABLERO SELECCIONADO EXISTA EN EL SUPER TABLERO
+							assert(float(refe).is_integer())	
+							assert((refe >= 0) and (refe <= n)) 	
+							break
 
-						elif Jugada_Valida(fila,columna, tab) == False:### NO LLEGA A ESTE SUBPROGRAMA
-							print "\nIntente nuevamente. Casilla ocupada."
-							fila = int(input("\nFila a trabajar: "))
-							columna = int(input("Columna a trabajar: "))
-							Jugada_Valida(fila,columna, tab)
+						except:
+							print "\nUsted ha elegido un tablero inexistente en la Dimension."
+							print "Intente nuevamente."
 
-					elif Jugada_Valida(fila,columna, tab) == False:### NO LLEGA A ESTE SUBPROGRAMA
-						print "Intente nuevamente. Casilla ocupada."
-						fila = int(input("\nFila a trabajar: "))
-						columna = int(input("Columna a trabajar: "))
-						Jugada_Valida(fila,columna, tab)
+						finally:
+							if (refe >= 0) and (refe <= n):
+								
+								# LLAMADA DEL TABLERO SELECCIONADO
+								tab = Sup_Tab[refe]		
+								print "\nTablero %s" %refe
+
+								#MOSTRANDO EL TABLERO POR FILAS
+								MostrarTablero(tab)
+
+								# Procedimiento por Tablero. Jugadas por tablero 
+								def JugadaTablero():
+								    # PartidaTablero; indica la cantidad de casillas a rellenar equivalente a las partidas a jugar.
+								    PartidaTablero = DimensionesTab **2
+
+								    # fail; cuenta lo errores obtenidos por Casilla ocupada o inexistente.
+								    	# Es un contador que marca si vuelve a ser llamado el ciclo o no en el condicional.
+								    fail = 0   
+
+								    # Ciclo lleva las jugadas segun las dimensiones del tablero.  
+								    for i in range(PartidaTablero):
+								        fila = int(input("\nFila a trabajar (E: %s filas): " %n))
+								        columna = int(input("Columna a trabajar (E: %s columnas): " %n))
+
+								        if Jugada_Valida(fila,columna, tab) == True:
+								            tab[fila][columna] = "x" ###AQUI FALTA DEFINIR LA FICHA DE DICHO TURNO
+								            print "\nTablero %s" %refe
+								            # MOSTRANDO EL TABLERO POR FILAS
+								            MostrarTablero(tab)
+
+								        elif Jugada_Valida(fila,columna, tab) == False:
+								            fail = fail + 1
+								            print "\nIntente nuevamente. Casilla ocupada o inexistente."
+								             
+								        i = i + 1
+
+								    return fail
+
+								# Condicional hace la llamada del procedimiento JugadaTablero y evalua si es 
+								# necesario seguir rellando el tablero o no.
+								if JugadaTablero() != 0 and not (all([n for z in range(  DimensionesTab)] for y in \
+								range(DimensionesTab))):
+								    JugadaTablero()
+								else:
+								    pass
