@@ -53,15 +53,16 @@ def QueQuiereSer(Jugador1, Jugador2): #El jugador decide si quiere ser X y O
 		except:
 			print "Intente nuevamente."
 		finally:
-			#Asignando las fichas a los jugadores
-			if letra == 'X':
-				Asig_1 = "X" #Jugador1
-				Asig_2 = "O" #Jugador2
-				return Asig_1 , Asig_2
-			elif letra == 'O':
-				Asig_1 = "O" #Jugador1
-				Asig_2 = "X" #Jugador2
-				return Asig_1 , Asig_2
+			if (letra == "X" or letra == "O"):
+				#Asignando las fichas a los jugadores
+				if letra == 'X':
+					Asig_1 = "X" #Jugador1
+					Asig_2 = "O" #Jugador2
+					return Asig_1 , Asig_2
+				elif letra == 'O':
+					Asig_1 = "O" #Jugador1
+					Asig_2 = "X" #Jugador2
+					return Asig_1 , Asig_2
 
 # Procedimiento por Tablero. Jugadas por tablero 
 def JugadaTablero(fila,columna,tablero,turno,ReferenciaTablero,tamano):
