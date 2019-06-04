@@ -249,7 +249,7 @@ while True: #DIMENSIONES
                                     if OK == "OK":
                                         turno_fail = JugadaTablero(0,0,tab,refe,DimensionesTab,ficha_jug1) 
                                         
-                                        if turno_fail > 0: #and (not(all([z for z in range(DimensionesTab)] for y in range(DimensionesTab)) == 0)):
+                                        if turno_fail > 0:
                                             JugadaTablero(0,0,tab,refe,DimensionesTab,ficha_jug1)
                                         else:
                                            pass
@@ -286,7 +286,7 @@ while True: #DIMENSIONES
                                     if OK == "OK":
                                         turno_fail = JugadaTablero(0,0,tab,refe,DimensionesTab,ficha_jug2) 
                                         
-                                        if turno_fail > 0: #and (not(all([z for z in range(DimensionesTab)] for y in range(DimensionesTab)) == 0)):
+                                        if turno_fail > 0: 
                                             JugadaTablero(0,0,tab,refe,DimensionesTab,ficha_jug2)
                                         else:
                                            pass
