@@ -80,55 +80,16 @@ def HayAlinea(SuperTablero, Tablero, Tamano, Fila, Columna, Ficha):
     return HayAlineaTablero  
 
   ###LLAMADA DE LAS FUNCIONES INTERNAS###
-  # Llamada si hay Linea Horizontal
   return HayAlineaHorizontal(Tablero,Fila,Tamano,Ficha), HayAlineaVertical(Tablero,Fila,Tamano,Ficha),\
 HayAlineaDiagonal(Tablero,Tamano,Ficha), HayAlineaTableros(SuperTablero,Fila,Columna,Tamano, Ficha)
-  
 
-SuperTablero = [\
-\
-[["X",0,"X"],\
-[0,"X",0],\
-["X","X","X"]]
-,\
-[[0,0,0],\
-[0,"X",0],\
-[0,0,0]]
-,\
-[["X","X","X"],\
-["X","X","X"],\
-["X","X","X"]]\
-,]
-
-Ficha = "X"
-Fila = 1
-Columna = 2
-Tamano = 3
-
-#tablero de pruebas
-Tablero1 = \
-[["X",0,"X"],\
-[0,"X",0],\
-["X","X","X"]]
-
-Tablero2 = \
-[[0,0,0],\
-[0,"X",0],\
-[0,0,0]]
-
-Tablero3 = \
-[["X","X","X"],\
-["X","X","X"],\
-["X","X","X"]]
-
-LineaHorizontal, LineaVertical,LineaDiag,LineaTableros = HayAlinea(SuperTablero,Tablero1,Tamano, Fila, Columna,Ficha)
-
-# Orden de Salida   
-print LineaHorizontal
-
-print LineaVertical
-
-print LineaDiag
-
-print LineaTableros 
+# Definicion Suma de Linea  
+def SumarLinea(LineaJugador, LineaHorizontal, LineaVertical,LineaDiag,LineaTableros):
+  # Inicializa en cero LineaJugador.
+  # Este condicional lee 1 como True y 0 como False.
+  if LineaHorizontal or LineaVertical or LineaDiag or LineaTableros: 
+    LineaJugador = LineaJugador + LineaHorizontal + LineaVertical + LineaDiag + LineaTableros # actualiza el contador cuando retorna esto
+  else:
+    pass # No actualiza el contador si no cumple la condicion de existencia
+  return LineaJugador
 
