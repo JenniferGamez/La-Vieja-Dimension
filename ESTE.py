@@ -16,7 +16,8 @@ def Tablero_NxN(tamano_Tablero, n):
 # Super Tablero: contiene las dimensiones (conjunto de tableros).
 def Super_tablero(tamano):
     #Dimensiones: array que conformado por un conjunto de tableros
-    dimensiones = [ z for z in range(tamano)] 
+    dimensiones = [ z for z in range(tamano)]
+    # Cota : Dimensiones -1
     for i in dimensiones:
         dimensiones[i] = Tablero_NxN(tamano, 0)
         # Asigna n == 0, porque inicialmente la matriz esta vacia Tablero_NxN(tamano, n)
@@ -26,6 +27,8 @@ def Super_tablero(tamano):
 # Mostrar en la consola el tablero por filas (Da la impresion de un tablero) 
 def MostrarTablero(Tab): # Mostrar filas al imprimir
 # Aqui definimos un tablero por cada llamada fila en el rango de Tab
+    # Cota : DimensionesTab -1
+    # DimensionesTab es la parte entera (numero) de Tab.
     for fila in Tab:
         print (fila) 
 
@@ -200,6 +203,7 @@ def HayAlinea(SuperTablero, Tablero, Tamano, Fila, Columna, Ficha):
     # Inicializando contador
     cont_vertical = 0
     # Evaluando entre tablero si se cumple la condicion
+    # Cota : Tamano -1
     for i in range(Tamano):
       if Tablero[i][Columna] == Ficha and Tablero[i][Columna] != 0: 
         cont_vertical = cont_vertical + 1
@@ -219,7 +223,9 @@ def HayAlinea(SuperTablero, Tablero, Tamano, Fila, Columna, Ficha):
     # Inicializando contador
     cont_diagonal = 0
     # Evaluando entre tablero si se cumple la condicion
+    # Cota : Tamano -1
     for i in range(0,Tamano):
+      # Cota : Tamano -1
       for j in range (0,Tamano):  
         if Tablero[i][j] == Ficha and i == j: 
           cont_diagonal = cont_diagonal + 1
@@ -244,6 +250,8 @@ def HayAlinea(SuperTablero, Tablero, Tamano, Fila, Columna, Ficha):
     contador_lineaTablero = 0
 
     # Evaluando entre tablero si se cumple la condicion
+    # Cota : DimensionesTab -1  
+    # DimensionesTab es el entero (numero) de SuperTablero
     for Tablero in SuperTablero:
       if (TableroFijo[Fila][Columna] == Tablero[Fila][Columna] == Ficha):
         contador_lineaTablero = contador_lineaTablero + 1
@@ -336,7 +344,7 @@ def OtraPartida():
                         LineaJugador2 = 0 
 
                         # JUGANDO EN LOS TABLEROS
-                        
+                        # Cota : Fichas -1
                         for i in range (Fichas):
 
                             if i % 2 == 0 : # Par: Jugador 1
