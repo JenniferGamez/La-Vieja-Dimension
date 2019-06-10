@@ -1,10 +1,20 @@
 #!/usr/bin/env python
-
+#
+#-------------------------------------------------------------------
+#
+#  Universidad Experimental Simon BOlivar
+#  Laboratorio de Algoritmos y Estructuras I
+#  Jennifer Gamez 16-10396
+#  Amaranta Villegas 16-11
+#
+#-------------------------------------------------------------------
+#
 #IMPORTANDO LIBRERIA
 import sys
 
-
-                                ###DEFINIENDO PROCEDIMIENTOS Y FUNCIONES###
+#-------------------------------------------------------------------
+#                  DEFINIENDO PROCEDIMIENTOS Y FUNCIONES
+#-------------------------------------------------------------------
 
 # Definicion que crea los tableros N x N
 def Tablero_NxN(tamano_Tablero, n):
@@ -36,14 +46,14 @@ def MostrarTablero(Tab): # Mostrar filas al imprimir
 def Jugada_Valida(fila,columna, tablero):
   while True:
     try:
-      Valido = True
-      # Verificando que la casilla este vacia.
-      assert(tablero[fila][columna] == 0)
-      assert(fila >= 0 and columna >= 0)
-      break
+        Valido = True
+        # Verificando que la casilla este vacia.
+        assert(tablero[fila][columna] == 0)
+        assert(fila >= 0 and columna >= 0)
+        break
     except:
-      # En caso de estar ocupada o fuera de los parametros  
-      Valido = False
+        # En caso de estar ocupada o fuera de los parametros  
+        Valido = False
     finally:
         # Salida de la Funcion.
         return Valido
@@ -60,21 +70,25 @@ def QueQuiereSer(Jugador1, Jugador2): #El jugador decide si quiere ser X y/o O
             print ("Intente nuevamente.")
         finally:
             #Asignando las fichas a los jugadores
-            if letra == "X":
-                Asig_1 = "X" #Jugador1
-                Asig_2 = "O" #Jugador2
-                
-            elif letra == "O":
-                Asig_1 = "O" #Jugador1
-                Asig_2 = "X" #Jugador2
-            # Salida de la Funcion.
-            return Asig_1 , Asig_2
+            if letra == "X" or letra == "O":
+                if letra == "X":
+                    Asig_1 = "X" #Jugador1
+                    Asig_2 = "O" #Jugador2
+                    
+                else:
+                    Asig_1 = "O" #Jugador1
+                    Asig_2 = "X" #Jugador2
+                # Salida de la Funcion.
+                return Asig_1 , Asig_2
 
 # Decidiendo quien comienza la partida primero
 def QuienIniciaPartida(Jugador1, Jugador2, ficha1, ficha2):
     # Inicializacion. Estos hacen el papel de sustitutos si es necesario hacer un cambio.
     CambioJugador = 0
     CambioFicha = 0
+
+    # Inicializando el valor de entrada 
+    Escoge = -1
 
     # Salida
     print ("\nJugador1 = %s con la ficha %s" %(Jugador1,ficha1))
@@ -110,6 +124,8 @@ def QuienIniciaPartida(Jugador1, Jugador2, ficha1, ficha2):
                     print ("Jugador2 = %s con la ficha %s" %(Jugador2,ficha2))
                 # Salida de la Funcion.
                 return Jugador1, Jugador2, ficha1, ficha2
+            else: # este se lee en caso de que la entrada sea un string
+                pass
 
 # Procedimiento por Tablero. Jugadas por tablero 
 def JugadaTablero(fila,columna,tablero,ReferenciaTablero,tamano,ficha):
@@ -118,30 +134,42 @@ def JugadaTablero(fila,columna,tablero,ReferenciaTablero,tamano,ficha):
 
     # fail; cuenta si se presenta un error por Casilla ocupada o inexistente
     fail = 0    
-    
-    # Entrada.
-    fila = int(input("\nFila a trabajar (E: %s filas): " %n))
-    columna = int(input("Columna a trabajar (E: %s columnas): " %n))
+    while True:
+        try:
+            # Entrada.
+            fila = int(input("\nFila a trabajar (E: %s filas): " %n))
+            columna = int(input("Columna a trabajar (E: %s columnas): " %n))
+            assert (fila >= 0 and columna >= 0)
+            assert(float(fila).is_integer())
+            assert(float(columna).is_integer())
+        except:
+            print ("Intente nuevamente.")
+        finally:  
+            if fila >= 0 and columna >= 0:
+            # Llamada de Jugada_Valida evalua si la casilla esta ocupada o no exite.
+                if Jugada_Valida(fila,columna, tablero) == True: 
+                    tablero[fila][columna] =  ficha 
+                    print ("\nTablero %s" %ReferenciaTablero)
+                    # Salida. Llama la funcion y muestra el tablero por filas..
+                    MostrarTablero(tablero)
 
-    # Llamada de Jugada_Valida evalua si la casilla esta ocupada o no exite.
-    if Jugada_Valida(fila,columna, tablero) == True: 
-        tablero[fila][columna] =  ficha 
-        print ("\nTablero %s" %ReferenciaTablero)
-        # Salida. Llama la funcion y muestra el tablero por filas..
-        MostrarTablero(tablero)
+                elif (Jugada_Valida(fila,columna, tablero) == False) or (Jugada_Valida(fila,columna, tablero) == None):
+                    fail = 1
+                    print ("\nIntente nuevamente. Casilla ocupada o inexistente.")
+                    print ("\nTablero %s" %ReferenciaTablero)
+                    # Salida. Llama la funcion y muestra el tablero por filas.
+                    MostrarTablero(tablero)
 
-
-    elif Jugada_Valida(fila,columna, tablero) == False:
-        fail = fail + 1
-        print ("\nIntente nuevamente. Casilla ocupada o inexistente.")
-        print ("\nTablero %s" %ReferenciaTablero)
-        # Salida. Llama la funcion y muestra el tablero por filas.
-        MostrarTablero(tablero)
-    # Salida de la Funcion y los datos proporcionados de fila y/o columna.
-    return fail,fila,columna
+                # Salida de la Funcion y los datos proporcionados de fila y/o columna.
+                return fail,fila,columna
+            else:
+                pass
 
 # Funcion que pide de entrada la eleccion de un Tablero; este verifica si la refencia es valida.
 def ChooseTablero(Jugador,TablerosDisponible):
+    # Inicializando valor de entrada.
+    ReferenciaTablero = -1  
+
     while True:
         try:     
             # Seleccionar tablero a preferencia por el jugador
@@ -159,10 +187,13 @@ contando el tablero 0: '%(Jugador, TablerosDisponible)))
         finally:
             if (ReferenciaTablero >= 0) and (ReferenciaTablero <= TablerosDisponible):
                 # Salida. Retornando la referencia valida.
-                return ReferenciaTablero   
+                return ReferenciaTablero
+            else:
+                pass
 
 # Comprobar / Reafirmar que el tablero seleccionado es el deseado por el usuario.
 def OKTablero():
+    OK = -1
     while  True:
         try:
             #Condicional de confirmacion de tablero deseado.
@@ -279,9 +310,15 @@ def SumarLinea(LineaJugador, LineaHorizontal, LineaVertical,LineaDiag,LineaTable
     pass # No actualiza el contador si no cumple la condicion de existencia
   return LineaJugador
 
-# Procedimiento. Este contiente el Programa Principal.
+#-------------------------------------------------------------------
+#
+#                   PROCEDIMIENTO PRINCIPAL
+#                       
+#-------------------------------------------------------------------
+
 def OtraPartida():
                                     ###PROGRAMA PRINCIPAL###
+    DimensionesTab = -1
     while True: # Dimensiones / Tamano
         try:
             # Entrada. Dimension o tamano de los tableros a jugar.    
@@ -300,174 +337,179 @@ def OtraPartida():
                 print ("\nHas elegido un tablero: %s x %s." %(DimensionesTab,DimensionesTab))
                 print ("Dimensiones a jugar: %s Dimensiones." %DimensionesTab)
 
-            while True: # Identificacion
-                try:    
-                    #ENTRADA.
-                    Jugador1 = str(raw_input("\nIngrese el nombre del Jugador 1: ")).upper()
-                    Jugador2 = str(raw_input("Ingrese el nombre del Jugador 2: ")).upper()
+                while True: # Identificacion
+                    try:    
+                        #ENTRADA.
+                        Jugador1 = str(raw_input("\nIngrese el nombre del Jugador 1: ")).upper()
+                        Jugador2 = str(raw_input("Ingrese el nombre del Jugador 2: ")).upper()
 
-                    assert(len(Jugador1) > 0)
-                    assert(len(Jugador2) > 0)
-                    break
+                        assert(len(Jugador1) > 0)
+                        assert(len(Jugador2) > 0)
+                        break
 
-                except:
-                    print ("\nLa identificacion de los jugadores es esencial.")
-                    print ("Por favor ingrese una identificacion valida.")
+                    except:
+                        print ("\nLa identificacion de los jugadores es esencial.")
+                        print ("Por favor ingrese una identificacion valida.")
 
-                finally:
-                    # Se ejecuta si las aserciones se cumplen.
-                    if len(Jugador1) > 0 and len(Jugador2) > 0:
-                        # SALIDA DE LA IDENTIFICACION DE LOS JUGADORES
-                        print ("\nJugador1 = %s" %Jugador1)
-                        print ("Jugador2 = %s" %Jugador2)
+                    finally:
+                        # Se ejecuta si las aserciones se cumplen.
+                        if len(Jugador1) > 0 and len(Jugador2) > 0:
+                            # SALIDA DE LA IDENTIFICACION DE LOS JUGADORES
+                            print ("\nJugador1 = %s" %Jugador1)
+                            print ("Jugador2 = %s" %Jugador2)
 
-                        # Asigando las fichas
-                        ficha_jug1, ficha_jug2 = QueQuiereSer(Jugador1,Jugador2)
+                            # Asigando las fichas
+                            ficha_jug1, ficha_jug2 = QueQuiereSer(Jugador1,Jugador2)
 
-                        # Monstrando los resultados. Se llama la funcion para reafirmar la informacion proporcionada por los usuarios.
-                        Jugador1, Jugador2, ficha_jug1, ficha_jug2 = QuienIniciaPartida(Jugador1, Jugador2, ficha_jug1, ficha_jug2)
+                            # Monstrando los resultados. Se llama la funcion para reafirmar la informacion proporcionada por los usuarios.
+                            Jugador1, Jugador2, ficha_jug1, ficha_jug2 = QuienIniciaPartida(Jugador1, Jugador2, ficha_jug1, ficha_jug2)
 
-                        # Construyendo los tableros en la dimension / tamano seleccionada.
-                        SuperTableros = Super_tablero(DimensionesTab)
+                            # Construyendo los tableros en la dimension / tamano seleccionada.
+                            SuperTableros = Super_tablero(DimensionesTab)
 
-                        # Disponibilidad de tablero a escoger.
-                        n = DimensionesTab - 1 
+                            # Disponibilidad de tablero a escoger.
+                            n = DimensionesTab - 1 
 
-                        # Fichas entre todos los tableros
-                        Fichas = DimensionesTab * DimensionesTab * DimensionesTab 
+                            # Fichas entre todos los tableros
+                            Fichas = DimensionesTab * DimensionesTab * DimensionesTab 
 
-                        # Fichas entre el mismo tablero
-                        PartidaTablero = DimensionesTab * DimensionesTab 
+                            # Fichas entre el mismo tablero
+                            PartidaTablero = DimensionesTab * DimensionesTab 
 
-                        # Inicializando Contador de Lineas.
-                        LineaJugador1 = 0
-                        LineaJugador2 = 0 
+                            # Inicializando Contador de Lineas.
+                            LineaJugador1 = 0
+                            LineaJugador2 = 0 
 
-                        # JUGANDO EN LOS TABLEROS
-                        # Cota : Fichas -1
-                        for i in range (Fichas):
+                            # JUGANDO EN LOS TABLEROS
+                            # Cota : Fichas -1
+                            for i in range (Fichas):
 
-                            if i % 2 == 0 : # Par: Jugador 1
-                                # Salida. Mensaje
-                                print ("\nJuegan las: %s, Jugador: %s." %(ficha_jug1,Jugador1))
-                    
-                                print ("Fichas disponible(s): %s" %Fichas)
+                                if i % 2 == 0 : # Par: Jugador 1
+                                    # Salida. Mensaje
+                                    print ("\nJuegan las: %s, Jugador: %s." %(ficha_jug1,Jugador1))
+                        
+                                    print ("Fichas disponible(s): %s" %Fichas)
 
-                                # Referencia del tablero a escoger.
-                                refe = ChooseTablero(Jugador1, n)
+                                    # Referencia del tablero a escoger.
+                                    refe = ChooseTablero(Jugador1, n)
 
-                                # Tablero
-                                Tablero = SuperTableros[refe]    
-                                print ("\nTablero %s" %refe)
-                                MostrarTablero(Tablero)
+                                    # Tablero
+                                    Tablero = SuperTableros[refe]    
+                                    print ("\nTablero %s" %refe)
+                                    MostrarTablero(Tablero)
 
-                                while True:
-                                    try:
-                                        # Confirmacion de tablero deseado
-                                        OK = OKTablero()
-                                        assert(OK == "OK")
-                                        break
-                                    except:
-                                        # Referencia del tablero a escoger.
-                                        refe = ChooseTablero(Jugador1, n)
+                                    while True:
+                                        try:
+                                            # Confirmacion de tablero deseado
+                                            OK = OKTablero()
+                                            assert(OK == "OK")
+                                            break
+                                        except:
+                                            # Referencia del tablero a escoger.
+                                            refe = ChooseTablero(Jugador1, n)
 
-                                        # Tablero
-                                        Tablero = SuperTableros[refe]    
-                                        print ("\nTablero %s" %refe)
-                                        MostrarTablero(Tablero)
+                                            # Tablero
+                                            Tablero = SuperTableros[refe]    
+                                            print ("\nTablero %s" %refe)
+                                            MostrarTablero(Tablero)
 
-                                    finally:                              
-                                        if OK == "OK":
-                                            turno_fail,fila,columna = JugadaTablero(0,0,Tablero,refe,DimensionesTab,ficha_jug1)
-                                            # Condicional por si la fila y/o columna seleccionada se salen de la dimension.
-                                            if turno_fail > 0: # Se sale de la dimension
-                                                JugadaTablero(0,0,Tablero,refe,DimensionesTab,ficha_jug1)
-                                            elif turno_fail == 0: # Se mantiene en la dimension
-                                                # Verificando si hay Linea.
-                                                LineaHorizontal,LineaVertical,LineaDiag,LineaTableros= HayAlinea(SuperTableros,\
-Tablero, DimensionesTab, fila, columna, ficha_jug1)
+                                        finally:                              
+                                            if OK == "OK":
+                                                turno_fail,fila,columna = JugadaTablero(-1,-1,Tablero,refe,DimensionesTab,ficha_jug1)
+                                                # Condicional por si la fila y/o columna seleccionada se salen de la dimension.
+                                                if turno_fail > 0: # Se sale de la dimension
+                                                    JugadaTablero(-1,-1,Tablero,refe,DimensionesTab,ficha_jug1)
+                                                elif turno_fail == 0: # Se mantiene en la dimension
+                                                    # Verificando si hay Linea.
+                                                    LineaHorizontal,LineaVertical,LineaDiag,LineaTableros= HayAlinea(SuperTableros,\
+    Tablero, DimensionesTab, fila, columna, ficha_jug1)
 
-                                                # Sumando si hay linea.
-                                                LineaJugador1 =  LineaJugador1 + SumarLinea(LineaJugador1, LineaHorizontal,\
-LineaVertical,LineaDiag,LineaTableros)
-                                                # Salida de los resultados obtenidos con la jugada del jugador.
-                                                print ("\nLinea(s) Realizadas = %s" %LineaJugador1)
-                                                
-                            elif i % 2 != 0: # Impar: Jugador 2
-                                # Jugador actual.
-                                print ("\nJuegan las: %s, Jugador: %s." %(ficha_jug2,Jugador2))
-                    
-                                print ("Fichas disponible(s): %s" %Fichas)
-
-                                # Referencia del tablero a escoger.
-                                refe = ChooseTablero(Jugador2, n)
-
-                                # Tablero
-                                Tablero = SuperTableros[refe]    
-                                print ("\nTablero %s" %refe)
-                                MostrarTablero(Tablero)
-
-                                while True:
-                                    try:
-                                        # Confirmacion de tablero deseado
-                                        OK = OKTablero()
-                                        assert(OK == "OK")
-                                        break
-                                    except:
-                                        # Referencia del tablero a escoger.
-                                        refe = ChooseTablero(Jugador2, n)
-
-                                        # Tablero
-                                        Tablero = SuperTableros[refe]    
-                                        print ("\nTablero %s" %refe)
-                                        MostrarTablero(Tablero)
-
-                                    finally:                              
-                                        if (OK ==str("OK")):
-                                            turno_fail,fila,columna = JugadaTablero(0,0,Tablero,refe,DimensionesTab,ficha_jug2) 
-                                            # Condicional por si la fila y/o columna seleccionada se salen de la dimension.
-                                            if turno_fail > 0: # Se sale de la dimension
-                                                JugadaTablero(0,0,Tablero,refe,DimensionesTab,ficha_jug2)
-                                            elif turno_fail == 0: # Se mantiene en la dimension
-                                                # Verificando si hay Linea.
-                                                LineaHorizontal,LineaVertical,LineaDiag,LineaTableros= HayAlinea(SuperTableros,\
-    Tablero, DimensionesTab, fila, columna, ficha_jug2)
-
-                                                # Sumando si hay linea.
-                                                LineaJugador2 = LineaJugador2 +  SumarLinea(LineaJugador2, LineaHorizontal,\
+                                                    # Sumando si hay linea.
+                                                    LineaJugador1 =  LineaJugador1 + SumarLinea(LineaJugador1, LineaHorizontal,\
     LineaVertical,LineaDiag,LineaTableros)
-                                                # Salida de los resultados obtenidos con la jugada del jugador.
-                                                print ("\nLinea(s) Realizadas = %s" %LineaJugador2)
-                            Fichas = Fichas - 1     # Cada vez que juega disminuye una ficha
-                        # Al acabarse la partida.    
-                        # Quien es el ganador?                        
-                        if LineaJugador1 > LineaJugador2:
-                          print ("\nHAZ GANADO! %s" %(Jugador1))
-                        elif LineaJugador1 < LineaJugador2:
-                          print ("\nHAZ GANADO! %s" %(Jugador2)) 
-                        elif LineaJugador1 == LineaJugador2:
-                            print ("\nEMPATE!")
-                        # Resultados obtenidos de la partida
-                        print ("\nTotal resultados: %s= %s lineas. %s= %s lineas" %(Jugador1,LineaJugador1,Jugador2,LineaJugador2))
+                                                    # Salida de los resultados obtenidos con la jugada del jugador.
+                                                    print ("\nLinea(s) Realizadas = %s" %LineaJugador1)
+                                            else:
+                                                pass
+                                elif i % 2 != 0: # Impar: Jugador 2
+                                    # Jugador actual.
+                                    print ("\nJuegan las: %s, Jugador: %s." %(ficha_jug2,Jugador2))
+                        
+                                    print ("Fichas disponible(s): %s" %Fichas)
 
-                        # Y si queremos volver a dar otra jugada. Una revancha o mas nivel en el tablero.
-                        while True:
-                            try:
-                                Otra = int(input("\nDesean jugar otra partida?; 1 (Si), 0 (No):"))
-                                assert(float(Otra).is_integer())
-                                assert( Otra == 1 or Otra == 0)
-                                break
-                            except:
-                                print ("\nIntente nuevamente.")
-                            finally:
-                                if Otra == 1 or Otra == 0:
-                                    if Otra:
-                                        # Otra partida.
-                                        OtraPartida()
-                                    else:
-                                        # Se acabo.
-                                        print ("\nExcelente partida.")
-                                
+                                    # Referencia del tablero a escoger.
+                                    refe = ChooseTablero(Jugador2, n)
+
+                                    # Tablero
+                                    Tablero = SuperTableros[refe]    
+                                    print ("\nTablero %s" %refe)
+                                    MostrarTablero(Tablero)
+
+                                    while True:
+                                        try:
+                                            # Confirmacion de tablero deseado
+                                            OK = OKTablero()
+                                            assert(OK == "OK")
+                                            break
+                                        except:
+                                            # Referencia del tablero a escoger.
+                                            refe = ChooseTablero(Jugador2, n)
+
+                                            # Tablero
+                                            Tablero = SuperTableros[refe]    
+                                            print ("\nTablero %s" %refe)
+                                            MostrarTablero(Tablero)
+
+                                        finally:                              
+                                            if (OK ==str("OK")):
+                                                turno_fail,fila,columna = JugadaTablero(-1,-1,Tablero,refe,DimensionesTab,ficha_jug2) 
+                                                # Condicional por si la fila y/o columna seleccionada se salen de la dimension.
+                                                if turno_fail > 0: # Se sale de la dimension
+                                                    JugadaTablero(-1,-1,Tablero,refe,DimensionesTab,ficha_jug2)
+                                                elif turno_fail == 0: # Se mantiene en la dimension
+                                                    # Verificando si hay Linea.
+                                                    LineaHorizontal,LineaVertical,LineaDiag,LineaTableros= HayAlinea(SuperTableros,\
+        Tablero, DimensionesTab, fila, columna, ficha_jug2)
+
+                                                    # Sumando si hay linea.
+                                                    LineaJugador2 = LineaJugador2 +  SumarLinea(LineaJugador2, LineaHorizontal,\
+        LineaVertical,LineaDiag,LineaTableros)
+                                                    # Salida de los resultados obtenidos con la jugada del jugador.
+                                                    print ("\nLinea(s) Realizadas = %s" %LineaJugador2)
+                                            else:
+                                                pass                                                  
+                                Fichas = Fichas - 1     # Cada vez que juega disminuye una ficha
+                            # Al acabarse la partida.    
+                            # Quien es el ganador?                        
+                            if LineaJugador1 > LineaJugador2:
+                              print ("\nHAZ GANADO! %s" %(Jugador1))
+                            elif LineaJugador1 < LineaJugador2:
+                              print ("\nHAZ GANADO! %s" %(Jugador2)) 
+                            elif LineaJugador1 == LineaJugador2:
+                                print ("\nEMPATE!")
+                            # Resultados obtenidos de la partida
+                            print ("\nTotal resultados: %s= %s lineas. %s= %s lineas" %(Jugador1,LineaJugador1,Jugador2,LineaJugador2))
+
+                            # Y si queremos volver a dar otra jugada. Una revancha o mas nivel en el tablero.
+                            while True:
+                                try:
+                                    Otra = int(input("\nDesean jugar otra partida?; 1 (Si), 0 (No):"))
+                                    assert(float(Otra).is_integer())
+                                    assert( Otra == 1 or Otra == 0)
+                                    break
+                                except:
+                                    print ("\nIntente nuevamente.")
+                                finally:
+                                    if Otra == 1 or Otra == 0:
+                                        if Otra:
+                                            # Otra partida.
+                                            OtraPartida()
+                                        else:
+                                            # Se acabo.
+                                            print ("\nExcelente partida.")
+                else: 
+                    pass
+                                                       
 
 # Llamando el procedimiento principal
 OtraPartida()
